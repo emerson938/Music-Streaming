@@ -2,23 +2,26 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const User = require("./models/User"); // 👈 corrigido
+const User = require("./models/User");
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// conectar ao banco
-connectDB();
-
+// middlewares
 app.use(cors());
 app.use(express.json());
+
+// rotas
+const userRoutes = require("./routes/userRoutes");
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend funcionando!");
 });
 
+// rota de teste (opcional)
 app.get("/create-user", async (req, res) => {
     try {
         const user = await User.create({
@@ -33,6 +36,13 @@ app.get("/create-user", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+// 🔥 CONECTAR AO BANCO E SÓ DEPOIS INICIAR O SERVIDOR
+connectDB()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error("Erro ao conectar no banco:", err);
+    });
