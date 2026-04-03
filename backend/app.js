@@ -36,7 +36,12 @@ app.get("/create-user", async (req, res) => {
     }
 });
 
-// 🔥 CONECTAR AO BANCO E SÓ DEPOIS INICIAR O SERVIDOR
+app.get("/sobre", async (req, res) => {
+    res.send("<h1>Sobre Nós</h1><p>Bem-vindo à nossa aplicação!</p>");
+});
+
+
+
 connectDB()
     .then(() => {
         app.listen(PORT, () => {
