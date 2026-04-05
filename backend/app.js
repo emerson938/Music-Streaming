@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+
 const User = require("./models/User");
+const musicRoutes = require("./routes/musicRoutes");
 
 dotenv.config();
 
@@ -12,11 +14,15 @@ const PORT = process.env.PORT || 3000;
 // middlewares
 app.use(cors());
 app.use(express.json());
+app.use(express.static("uploads")); // Servir arquivos de upload
+app.use("/uploads", express.static("uploads")); // Rota para acessar os uploads
 
 // rotas
 const userRoutes = require("./routes/userRoutes");
 
 app.use("/api/users", userRoutes);
+
+app.use("/api/music", musicRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend funcionando!");

@@ -22,6 +22,11 @@ const songSchema = new mongoose.Schema(
         },
         duration: {
             type: Number
+        },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
         }
     },
     {
@@ -31,4 +36,4 @@ const songSchema = new mongoose.Schema(
 
 const Song = mongoose.model("Song", songSchema);
 
-export default Song;
+module.exports = Song;

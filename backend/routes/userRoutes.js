@@ -8,9 +8,9 @@ const { registerUser } = require("../controllers/userController");
 router.post("/register", registerUser);
 router.post("/login", login);
 
-router.get("profile", authMiddleware, (req, res) =>{
+router.get("/profile", authMiddleware, (req, res) =>{
     res.json({
-        massega: "Route protected",
+        message: "Route protected",
         user: req.user
     });
 });
