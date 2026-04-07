@@ -3,8 +3,12 @@ const router = express.Router();
 const upload = require("../middlewares/upload");
 const authMiddleware = require("../middlewares/authMIddleware");
 const Song = require("../models/Song");
+const streamMusic = require("../controllers/musicController");
 const fs = require("fs");
 const path = require("path");
+
+
+router.get("/stream/:id", streamMusic);
 
 // Upload de música
 router.post("/upload", authMiddleware, upload.single("music"), async (req, res) => {
