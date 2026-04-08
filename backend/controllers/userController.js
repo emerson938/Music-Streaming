@@ -18,14 +18,11 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Usuário já existe" });
     }
 
-    // hash da senha 🔐
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // salvar no banco
+    // salvar no banco (hashing feito no modelo)
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      password,
     });
 
     res.status(201).json({
