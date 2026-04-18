@@ -10,6 +10,16 @@ const path = require("path");
 
 router.get("/stream/:id", streamMusic);
 
+// Get user's songs
+router.get("/", authMiddleware, async (req, res) => {
+    try {
+        const songs = await Song.find({ userId: req.user.id });
+        res.json(songs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // Upload de música
 router.post("/upload", authMiddleware, upload.single("music"), async (req, res) => {
     try {
